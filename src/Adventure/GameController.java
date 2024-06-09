@@ -1,5 +1,8 @@
 package Adventure;
 
+import Util.Random;
+import Util.Range;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -12,8 +15,7 @@ public class GameController {
   boolean gameRunning = false;
 
   public GameController() {
-    enemy = new Enemy("Orc", 10, 1);
-    hero = new Hero("Garen ", 6, 1);
+    hero = new Hero("Garen", 10, new Range(1, 3));
 
     gameRunning = true;
     gameLoop();
@@ -24,7 +26,7 @@ public class GameController {
       if(Objects.nonNull(enemy)) {
         fight();
       } else {
-        
+        enemy = CharacterGenerator.generateEnemy();
       }
       
       
@@ -50,8 +52,9 @@ public class GameController {
       switch (input) {
         case "attack":
           inputAccepted = true;
-          enemy.takeDamage(hero.attackPower);
-          System.out.println("You hit " + enemy.name + " for " + hero.attackPower + " damage");
+          int damage = Random.range(hero.damageRange);
+          enemy.takeDamage(damage);
+          System.out.println("You hit " + enemy.name + " for " + damage + " damage");
           break;
         case "heal":
           if(hero.healthPotions > 0){
@@ -70,13 +73,19 @@ public class GameController {
           System.out.println("Input error, try again");
       }
     }
-    if (!gameRunning) break;
+    if (!gameRunning)
+      return;
+    if(hero.health <= 0) {
+      gameRunning = false;
+      System.out.println("You are dead!");
+    }
     if(enemy.health <= 0) {
       System.out.println(enemy.name + " has died!");
-      enemy = new Enemy("Skeleton", 10, 1);
-    } else {
-      hero.takeDamage(enemy.attackPower);
-      System.out.println(enemy.name + " hits you for " + enemy.attackPower + " damage");
+      enemy = null;
+    } else if(gameRunning) {
+      int damage = Random.range(enemy.damageRange);
+      hero.takeDamage(damage);
+      System.out.println(enemy.name + " hits you for " + damage + " damage");
     }
   }
 

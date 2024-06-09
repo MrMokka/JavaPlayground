@@ -8,10 +8,10 @@ public class Character {
   Range damageRange;
   String name;
 
-  public Character(String name, int maxhealth, Range damageRange) {
+  public Character(String name, int maxHealth, Range damageRange) {
     this.name = name;
-    this.maxHealth = maxhealth;
-    health = maxhealth;
+    this.maxHealth = maxHealth;
+    health = maxHealth;
     this.damageRange = damageRange;
   }
 
