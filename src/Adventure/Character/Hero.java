@@ -1,4 +1,4 @@
-package Adventure;
+package Adventure.Character;
 
 import Util.Range;
 
@@ -7,8 +7,8 @@ public class Hero extends Character {
   int healthPotions = 3;
   int gold = 0, xp = 0, level = 1;
 
-  public Hero(String name, int maxHealth, Range damageRange) {
-    super(name, maxHealth, damageRange);
+  public Hero(String name, int maxHealth, Range damageRange, int armour) {
+    super(name, maxHealth, damageRange, armour);
   }
 
   public void heal() {
@@ -41,4 +41,9 @@ public class Hero extends Character {
   public int getLevel() {
     return level;
   }
+
+  public int getHealthPotions() {
+    return healthPotions;
+  }
+
 }

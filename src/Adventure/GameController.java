@@ -1,5 +1,9 @@
 package Adventure;
 
+import Adventure.Character.CharacterGenerator;
+import Adventure.Character.Enemy;
+import Adventure.Character.Hero;
+import Util.Calculate;
 import Util.Random;
 import Util.Range;
 
@@ -15,13 +19,14 @@ public class GameController {
   boolean gameRunning = false;
 
   public GameController() {
-    hero = new Hero("Garen", 10, new Range(1, 3));
+    hero = new Hero("Garen", 10, new Range(1, 3), 1);
 
     gameRunning = true;
     gameLoop();
   }
 
   void gameLoop() {
+    Calculate.xp(20);
     while (gameRunning) {
       if(Objects.nonNull(enemy)) {
         fight();
@@ -37,11 +42,11 @@ public class GameController {
   void fight() {
     System.out.println("-----------------------------------------------------------------------------");
     System.out.println();
-    System.out.println("Enemy : " + String.format("%-" + 7 + "s", enemy.name) + " - hp: " + enemy.health + "/" + enemy.maxHealth);
-    System.out.println("You   : " + String.format("%-" + 7 + "s", hero.name) + " - hp: " + hero.health + "/" + hero.maxHealth);
+    System.out.println("Enemy : " + String.format("%-" + 7 + "s", enemy.getName()) + " - hp: " + enemy.getHealth() + "/" + enemy.getMaxHealth());
+    System.out.println("You   : " + String.format("%-" + 7 + "s", hero.getName()) + " - hp: " + hero.getHealth() + "/" + hero.getMaxHealth());
     System.out.println();
     System.out.println("What will you do?");
-    System.out.println("Attack - Heal (" + hero.healthPotions + ") - Run");
+    System.out.println("Attack - Heal (" + hero.getHealthPotions() + ") - Run");
 
     boolean inputAccepted = false;
     while (!inputAccepted) {
@@ -52,12 +57,12 @@ public class GameController {
       switch (input) {
         case "attack":
           inputAccepted = true;
-          int damage = Random.range(hero.damageRange);
+          int damage = Calculate.damage(hero, enemy.getArmour());
           enemy.takeDamage(damage);
-          System.out.println("You hit " + enemy.name + " for " + damage + " damage");
+          System.out.println("You hit " + enemy.getName() + " for " + damage + " damage");
           break;
         case "heal":
-          if(hero.healthPotions > 0){
+          if(hero.getHealthPotions() > 0){
             inputAccepted = true;
             hero.heal();
           }
@@ -75,17 +80,17 @@ public class GameController {
     }
     if (!gameRunning)
       return;
-    if(hero.health <= 0) {
+    if(hero.getHealth() <= 0) {
       gameRunning = false;
       System.out.println("You are dead!");
     }
-    if(enemy.health <= 0) {
-      System.out.println(enemy.name + " has died!");
+    if(enemy.getHealth() <= 0) {
+      System.out.println(enemy.getName() + " has died!");
       enemy = null;
     } else if(gameRunning) {
-      int damage = Random.range(enemy.damageRange);
+      int damage = Calculate.damage(enemy, hero.getArmour());
       hero.takeDamage(damage);
-      System.out.println(enemy.name + " hits you for " + damage + " damage");
+      System.out.println(enemy.getName() + " hits you for " + damage + " damage");
     }
   }
 
