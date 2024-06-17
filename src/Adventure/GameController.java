@@ -16,7 +16,7 @@ public class GameController {
   Hero hero;
 
   Scanner scanner = new Scanner(System.in);
-  boolean gameRunning = false;
+  boolean gameRunning;
 
   public GameController() {
     hero = new Hero("Garen", 10, new Range(1, 3), 1);
@@ -26,7 +26,6 @@ public class GameController {
   }
 
   void gameLoop() {
-    Calculate.xp(20);
     while (gameRunning) {
       if(Objects.nonNull(enemy)) {
         fight();
