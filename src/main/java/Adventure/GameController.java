@@ -7,6 +7,7 @@ import Util.Calculate;
 import Util.Random;
 import Util.Range;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -19,6 +20,11 @@ public class GameController {
   boolean gameRunning;
 
   public GameController() {
+    try{
+      CharacterGenerator.initEnemyList();
+    } catch(IOException e) {
+      System.err.println(e);
+    }
     hero = new Hero("Garen", 10, new Range(1, 3), 1);
 
     gameRunning = true;
@@ -79,10 +85,6 @@ public class GameController {
     }
     if (!gameRunning)
       return;
-    if(hero.getHealth() <= 0) {
-      gameRunning = false;
-      System.out.println("You are dead!");
-    }
     if(enemy.getHealth() <= 0) {
       System.out.println(enemy.getName() + " has died!");
       enemy = null;
@@ -90,6 +92,10 @@ public class GameController {
       int damage = Calculate.damage(enemy, hero.getArmour());
       hero.takeDamage(damage);
       System.out.println(enemy.getName() + " hits you for " + damage + " damage");
+    }
+    if(hero.getHealth() <= 0) {
+      gameRunning = false;
+      System.out.println("You are dead!");
     }
   }
 

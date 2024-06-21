@@ -8,7 +8,7 @@ public class Calculate {
   
   
   public static int damage(Character attacker, int defenderArmour) {
-    return Math.min(0, Random.range(attacker.getDamageRange()) - defenderArmour);
+    return Math.max(0, Random.range(attacker.getDamageRange()) - defenderArmour);
   }
   
   public static int getLevelFromXp(int xp) {
