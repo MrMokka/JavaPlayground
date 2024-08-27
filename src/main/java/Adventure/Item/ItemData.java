@@ -1,5 +1,7 @@
 package Adventure.Item;
 
+import Adventure.Item.ItemType.Weapon;
+
 import java.util.List;
 import java.util.Map;
 
