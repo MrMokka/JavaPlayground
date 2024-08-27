@@ -35,6 +35,7 @@ public class GameController {
       readItemData();
     } catch(IOException e) {
       System.err.println(e);
+      e.printStackTrace();
     }
     hero = new Hero("Garen", 10, new Range(1, 3), 1);
 

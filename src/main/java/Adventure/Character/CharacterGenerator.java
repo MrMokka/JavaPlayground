@@ -57,24 +57,24 @@ class PossibleEnemy  {
     return names[Random.range(0, names.length)];
   }
 
-  public int getHealth() {
-    return Random.range(healthRange.low, healthRange.high);
+  public Range getHealth() {
+    return healthRange;
   }
 
   public Range getDamageRange() {
     return damageRange;
   }
 
-  public int getXpValue() {
-    return Random.range(xpRange.low, xpRange.high);
+  public Range getXpValue() {
+    return xpRange;
   }
 
-  public int getGoldValue() {
-    return Random.range(xpRange.low, xpRange.high);
+  public Range getGoldValue() {
+    return goldRange;
   }
 
-  public int getArmourValue() {
-    return Random.range(armourRange.low, armourRange.high);
+  public Range getArmourValue() {
+    return armourRange;
   }
 }
 
