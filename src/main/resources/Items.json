@@ -1,0 +1,53 @@
+{
+  "weapons": {
+    "Sword": {
+      "damage": 2
+    },
+    "Axe": {
+      "damage": 4
+    },
+    "Staff": {
+      "damage": 1,
+      "healing": 1
+    },
+    "Claws": {
+      "damage": 2
+    }
+  },
+  "armor": [
+    {
+      "name": "Cloth",
+      "defence": 1
+    },
+    {
+      "name": "Chain",
+      "defence": 2
+    },
+    {
+      "name": "Iron",
+      "defence": 4
+    },
+    {
+      "name": "Steel",
+      "defence": 6
+    }
+  ],
+  "consumables": {
+    "damage": [
+      {
+        "name": "Bomb",
+        "damage": 3
+      }
+    ],
+    "healing": [
+      {
+        "name": "Healing Potion",
+        "healing": 3
+      },
+      {
+        "name": "Med kit",
+        "healing": 6
+      }
+    ]
+  }
+}

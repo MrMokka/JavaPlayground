@@ -2,12 +2,19 @@ package Adventure;
 
 import Adventure.Character.CharacterGenerator;
 import Adventure.Character.Enemy;
+import Adventure.Character.EnemyData;
 import Adventure.Character.Hero;
+import Adventure.Item.ItemData;
 import Util.Calculate;
 import Util.Random;
 import Util.Range;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -18,10 +25,14 @@ public class GameController {
 
   Scanner scanner = new Scanner(System.in);
   boolean gameRunning;
+  
+  public static List<EnemyData> enemyData = new ArrayList<>();
+  public static ItemData itemData;
 
   public GameController() {
     try{
-      CharacterGenerator.initEnemyList();
+      readEnemyData();
+      readItemData();
     } catch(IOException e) {
       System.err.println(e);
     }
@@ -98,5 +109,18 @@ public class GameController {
       System.out.println("You are dead!");
     }
   }
+  
+  
+  
+  void readEnemyData() throws IOException {
+    InputStream iStream = CharacterGenerator.class.getResourceAsStream("/EnemyAttributes.json");
+    enemyData = new ObjectMapper().readValue(iStream, new TypeReference<>(){});
+  }
+  
+  void readItemData() throws IOException {
+    InputStream iStream = CharacterGenerator.class.getResourceAsStream("/Items.json");
+    itemData = new ObjectMapper().readValue(iStream, ItemData.class);
+  }
+  
 
 }
