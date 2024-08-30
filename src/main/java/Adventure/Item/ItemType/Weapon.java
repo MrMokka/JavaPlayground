@@ -9,22 +9,21 @@ public class Weapon extends Item {
   int defence;
   
   private Weapon(Builder builder) {
-    super(builder.name);
+    super(builder);
     this.damage = builder.damage;
     this.healing = builder.healing;
     this.defence = builder.defence;
   }
   
-  public static class Builder {
+  public static class Builder extends Item.Builder {
     
-    private final String name;
     private final int damage;
     
     private int healing = 0;
     private int defence = 0;
     
-    public Builder(String name, int damage) {
-      this.name = name;
+    public Builder(int id, String name, int damage) {
+      super(id, name);
       this.damage = damage;
     }
     
