@@ -6,7 +6,7 @@ public class Consumable extends Item {
 
   int healing;
 
-  private Consumable(Builder builder) {
+  protected Consumable(Builder builder) {
     super(builder);
     this.healing = builder.healing;
   }
@@ -21,6 +21,12 @@ public class Consumable extends Item {
 
     public Builder healing(int healing) {
       this.healing = healing;
+      return this;
+    }
+
+    @Override
+    public Builder description(String description) {
+      this.description = description;
       return this;
     }
 

@@ -3,7 +3,7 @@
     "name": "Rat",
     "healthRange": { "low": 1, "high": 4},
     "damageRange": { "low": 0, "high": 1},
-    "armorRange": { "low": 0, "high": 0},
+    "armourRange": { "low": 0, "high": 0},
     "xpRange": { "low": 0, "high": 2},
     "goldRange": { "low": 0, "high": 4}
   },
@@ -11,7 +11,7 @@
     "name": "Orc",
     "healthRange": { "low": 5, "high": 10},
     "damageRange": { "low": 1, "high": 3},
-    "armorRange": { "low": 1, "high": 2},
+    "armourRange": { "low": 1, "high": 2},
     "xpRange": { "low": 1, "high": 4},
     "goldRange": { "low": 3, "high": 15}
   }

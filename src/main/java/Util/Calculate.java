@@ -1,14 +1,45 @@
 package Util;
 
 import Adventure.Character.Character;
+import Adventure.Info.ArmourInfo;
+import Adventure.Info.AttackInfo;
+import Adventure.Info.HealingInfo;
+import Adventure.Item.ItemType.Armour;
+import Adventure.Item.ItemType.Weapon;
 
 import java.util.*;
 
 public class Calculate {
   
   
-  public static int damage(Character attacker, int defenderArmour) {
-    return Math.max(0, Random.range(attacker.getDamageRange()) - defenderArmour);
+  
+  public static AttackInfo attack(AttackInfo attackInfo) {
+    Weapon attackWeapon = attackInfo.attacker.inventory.getWeapon();
+    ArmourInfo armourInfo = attackInfo.defender.getArmourInfo();
+    
+    int dmg = attackWeapon.getDamage();
+    int arm = armourInfo.totalArmourPoints;
+    float red = armourInfo.damageReduction;
+    int damage = Math.round(dmg - arm - ((dmg - arm) * red));
+    if(damage < 0) damage = 0;
+    
+    HealingInfo healingInfo = attackWeapon.getHealingInfo();
+    int healing = 0;
+    if(healingInfo.healingAmount > 0) {
+      int maxHp = attackInfo.attacker.getMaxHealth();
+      int missingHp = maxHp - attackInfo.attacker.getHealth();
+      
+      healing = switch (healingInfo.healingType) {
+        case FLAT -> (int) healingInfo.healingAmount;
+        case PERCENTAGE_MAX_HP -> Math.clamp(Math.round(maxHp * healingInfo.healingAmount), 0, missingHp);
+        case PERCENTAGE_DAMAGE -> Math.clamp(Math.round(damage * healingInfo.healingAmount), 0, missingHp);
+      };
+    }
+    
+    attackInfo.defenderDamageTaken = damage;
+    attackInfo.attackerHealed = healing;
+    
+    return attackInfo;
   }
   
   public static int getLevelFromXp(int xp) {

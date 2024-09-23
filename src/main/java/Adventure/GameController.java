@@ -4,19 +4,17 @@ import Adventure.Character.CharacterGenerator;
 import Adventure.Character.Enemy;
 import Adventure.Character.EnemyData;
 import Adventure.Character.Hero;
+import Adventure.Info.AttackInfo;
 import Adventure.Item.ItemData;
+import Adventure.Data.ItemList;
+import Adventure.Item.ItemType.Armour;
 import Util.Calculate;
-import Util.Random;
-import Util.Range;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameController {
 
@@ -30,6 +28,7 @@ public class GameController {
   public static ItemData itemData;
 
   public GameController() {
+    /*
     try{
       readEnemyData();
       readItemData();
@@ -37,7 +36,23 @@ public class GameController {
       System.err.println(e);
       e.printStackTrace();
     }
-    hero = new Hero("Garen", 10, new Range(1, 3), 1);
+    */
+    hero = new Hero.Builder(
+            -1, 
+            "Garen", 
+            300, 
+            new HashMap<>(Map.ofEntries(
+              Map.entry(Armour.Slot.HEAD, ItemList.getArmour(200)),
+              Map.entry(Armour.Slot.CHEST, ItemList.getArmour(201)),
+              Map.entry(Armour.Slot.LEGS, ItemList.getArmour(202)),
+              Map.entry(Armour.Slot.FEET, ItemList.getArmour(203)),
+              Map.entry(Armour.Slot.HANDS, ItemList.getArmour(204))
+            )),
+            ItemList.getWeapon(100),
+            new HashMap<>(Map.ofEntries(
+                    Map.entry(ItemList.getConsumable(500), 3)
+            ))
+    ).build();
 
     gameRunning = true;
     gameLoop();
@@ -74,14 +89,20 @@ public class GameController {
       switch (input) {
         case "attack":
           inputAccepted = true;
-          int damage = Calculate.damage(hero, enemy.getArmour());
-          enemy.takeDamage(damage);
-          System.out.println("You hit " + enemy.getName() + " for " + damage + " damage");
+          AttackInfo attackInfo = Calculate.attack(new AttackInfo(hero, enemy));
+          
+          enemy.takeDamage(attackInfo.defenderDamageTaken);
+          System.out.println("You hit " + enemy.getName() + " for " + attackInfo.defenderDamageTaken + " damage");
+          
+          if(attackInfo.attackerHealed > 0) {
+            hero.heal(attackInfo.attackerHealed);
+            System.out.println("You healed yourself for " + attackInfo.attackerHealed + " hp");
+          }
           break;
         case "heal":
           if(hero.getHealthPotions() > 0){
             inputAccepted = true;
-            hero.heal();
+            hero.useHealItem();
           }
           else System.out.println("You dont have any heal potions left!");
           break;
@@ -101,17 +122,22 @@ public class GameController {
       System.out.println(enemy.getName() + " has died!");
       enemy = null;
     } else if(gameRunning) {
-      int damage = Calculate.damage(enemy, hero.getArmour());
-      hero.takeDamage(damage);
-      System.out.println(enemy.getName() + " hits you for " + damage + " damage");
+      //Enemy attack phase
+      AttackInfo attackInfo = Calculate.attack(new AttackInfo(enemy, hero));
+      
+      hero.takeDamage(attackInfo.defenderDamageTaken);
+      System.out.println(enemy.getName() + " hits you for " + attackInfo.defenderDamageTaken + " damage");
+      
+      if(attackInfo.attackerHealed > 0) {
+        enemy.heal(attackInfo.attackerHealed);
+        System.out.println(enemy.getName() + " heals itself for " + attackInfo.attackerHealed + " hp");
+      }
     }
     if(hero.getHealth() <= 0) {
       gameRunning = false;
       System.out.println("You are dead!");
     }
   }
-  
-  
   
   void readEnemyData() throws IOException {
     InputStream iStream = CharacterGenerator.class.getResourceAsStream("/EnemyAttributes.json");
@@ -122,6 +148,5 @@ public class GameController {
     InputStream iStream = CharacterGenerator.class.getResourceAsStream("/Items.json");
     itemData = new ObjectMapper().readValue(iStream, ItemData.class);
   }
-  
 
 }

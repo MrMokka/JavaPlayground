@@ -8,18 +8,19 @@ import java.util.Map;
 public class ItemData {
   
   Map<String, ItemAttributes> weapons;
-  Map<String, ItemAttributes> armor;
+  Map<String, ItemAttributes> armour;
   Map<String, List<ItemAttributes>> consumables;
   
   
   public Item generateWeapon(String name){
     ItemAttributes weaponAttributes = weapons.get(name);
-    return new Weapon(
-        weaponAttributes.name,
-        weaponAttributes.damage,
-        weaponAttributes.healing,
-        weaponAttributes.defence
-    );
+//    return new Weapon(
+//        weaponAttributes.name,
+//        weaponAttributes.damage,
+//        weaponAttributes.healing,
+//        weaponAttributes.defence
+//    );
+    return null;
   }
   
   //region Getters and Setters
@@ -32,12 +33,12 @@ public class ItemData {
     this.weapons = weapons;
   }
   
-  public Map<String, ItemAttributes> getArmor() {
-    return armor;
+  public Map<String, ItemAttributes> getArmour() {
+    return armour;
   }
   
-  public void setArmor(Map<String, ItemAttributes> armor) {
-    this.armor = armor;
+  public void setArmour(Map<String, ItemAttributes> armour) {
+    this.armour = armour;
   }
   
   public Map<String, List<ItemAttributes>> getConsumables() {

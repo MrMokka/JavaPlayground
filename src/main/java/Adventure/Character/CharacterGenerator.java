@@ -33,7 +33,7 @@ public class CharacterGenerator {
   public static Enemy generateEnemy() {
     int enemyIndex = Random.rand.nextInt(possibleEnemies.length);
     PossibleEnemy enemy = possibleEnemies[enemyIndex];
-    return new Enemy(enemy.getName(), enemy.getHealth(), enemy.getDamageRange(), enemy.getXpValue(), enemy.getGoldValue(), enemy.getArmourValue());
+    return null; // new Enemy(enemy.getName(), enemy.getHealth(), enemy.getDamageRange(), enemy.getXpValue(), enemy.getGoldValue(), enemy.getArmourValue());
   }
   
   

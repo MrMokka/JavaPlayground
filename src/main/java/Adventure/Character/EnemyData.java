@@ -8,7 +8,7 @@ public class EnemyData {
   String name;
   Range healthRange;
   Range damageRange;
-  Range armorRange;
+  Range armourRange;
   Range xpRange;
   Range goldRange;
   
@@ -17,14 +17,17 @@ public class EnemyData {
   }
   
   public Enemy generateEnemy(){
+    return null;
+    /*
     return new Enemy(
         name,
         Random.range(healthRange.low, healthRange.high),
         damageRange,
         Random.range(xpRange.low, xpRange.high),
         Random.range(goldRange.low, goldRange.high),
-        Random.range(armorRange.low, armorRange.high)
+        Random.range(armourRange.low, armourRange.high)
     );
+    */
   }
   
   
@@ -55,12 +58,12 @@ public class EnemyData {
     this.damageRange = damageRange;
   }
   
-  public Range getArmorRange() {
-    return armorRange;
+  public Range getArmourRange() {
+    return armourRange;
   }
   
-  public void setArmorRange(Range armorRange) {
-    this.armorRange = armorRange;
+  public void setArmourRange(Range armourRange) {
+    this.armourRange = armourRange;
   }
   
   public Range getXpRange() {

@@ -1,17 +1,18 @@
 package Adventure.Item.ItemType;
 
+import Adventure.Info.HealingInfo;
 import Adventure.Item.Item;
 
 public class Weapon extends Item {
   
   int damage;
-  int healing;
+  HealingInfo healingInfo;
   int defence;
   
-  private Weapon(Builder builder) {
+  protected Weapon(Builder builder) {
     super(builder);
     this.damage = builder.damage;
-    this.healing = builder.healing;
+    this.healingInfo = builder.healingInfo;
     this.defence = builder.defence;
   }
   
@@ -19,7 +20,7 @@ public class Weapon extends Item {
     
     private final int damage;
     
-    private int healing = 0;
+    private HealingInfo healingInfo = new HealingInfo(HealingInfo.HealingType.FLAT, 0);
     private int defence = 0;
     
     public Builder(int id, String name, int damage) {
@@ -27,8 +28,8 @@ public class Weapon extends Item {
       this.damage = damage;
     }
     
-    public Builder healing(int healing) {
-      this.healing = healing;
+    public Builder healingInfo(HealingInfo healingInfo) {
+      this.healingInfo = healingInfo;
       return this;
     }
     
@@ -36,10 +37,27 @@ public class Weapon extends Item {
       this.defence = defence;
       return this;
     }
+
+    @Override
+    public Builder description(String description) {
+      this.description = description;
+      return this;
+    }
     
     public Weapon build() {
       return new Weapon(this);
     }
   }
-  
+
+  public int getDamage() {
+    return damage;
+  }
+
+  public HealingInfo getHealingInfo() {
+    return healingInfo;
+  }
+
+  public int getDefence() {
+    return defence;
+  }
 }

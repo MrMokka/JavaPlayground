@@ -1,17 +1,36 @@
 package Adventure.Character;
 
-import Util.Range;
+import Adventure.Item.Item;
+import Adventure.Item.ItemType.Armour;
+import Adventure.Item.ItemType.Weapon;
+
+import java.util.HashMap;
 
 public class Hero extends Character {
 
   int healthPotions = 3;
   int gold = 0, xp = 0, level = 1;
-
-  public Hero(String name, int maxHealth, Range damageRange, int armour) {
-    super(name, maxHealth, damageRange, armour);
+  
+  protected Hero(Builder builder) {
+    super(builder);
   }
 
-  public void heal() {
+  public static class Builder extends Character.Builder {
+
+    public Builder(int id, String name, int maxHealth, HashMap<Armour.Slot, Item> equipment, Weapon weapon, HashMap<Item, Integer> inventoryItems) {
+      super(id, name, maxHealth, equipment, weapon, inventoryItems);
+    }
+
+    public Builder(int id, String name, int maxHealth, HashMap<Armour.Slot, Item> equipment, Weapon weapon) {
+      super(id, name, maxHealth, equipment, weapon, new HashMap<>());
+    }
+
+    public Hero build() {
+      return new Hero(this);
+    }
+  }
+
+  public void useHealItem() {
     if(healthPotions > 0) {
       healthPotions--;
       health += 3;
